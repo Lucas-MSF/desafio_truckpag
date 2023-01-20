@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->integer("code");
             $table->enum("status",["draft", "trash", "published"]);
-            $table->date("imported_t");
+            $table->string("imported_t");
             $table->string("url");
             $table->string("creator");
-            $table->timestamp("created_t");
+            $table->integer("created_t");
             $table->integer("last_modified_t");
             $table->string("product_name");
             $table->string("quantity");
