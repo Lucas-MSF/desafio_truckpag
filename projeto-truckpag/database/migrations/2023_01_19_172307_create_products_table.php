@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string("code");
-            $table->enum("status",["draft", "trash", "published"])->nullable();
-            $table->string("imported_t")->nullable();
+            $table->enum("status",["draft", "trash", "published"]);
+            $table->string("imported_t");
             $table->string("url")->nullable();
             $table->string("creator")->nullable();
             $table->integer("created_t")->nullable();

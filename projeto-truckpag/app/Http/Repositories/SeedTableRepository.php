@@ -3,13 +3,16 @@
 namespace App\Http\Repositories;
 
 use App\Models\ExportedFile;
+use Illuminate\Support\Facades\DB;
 
 class SeedTableRepository
 {
 
     public function getAllFiles()
     {
-        return ExportedFile::all();
+        return DB::transaction(function (){
+            return ExportedFile::all();
+        });
     }
     public function addFiles(array $productsFiles)
     {

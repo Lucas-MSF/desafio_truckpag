@@ -2,8 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Services\SeedTableService;
 use Illuminate\Console\Command;
+use App\Http\Services\SeedTableService;
+
 
 class SeedTables extends Command
 {
@@ -35,9 +36,15 @@ class SeedTables extends Command
      */
     public function handle()
     {
-        $products = explode("\n", $this->seedTableService->requestApi());
-        $this->seedTableService->addProducts($products);
-        $this->seedTableService->requestFile();
-        return Command::SUCCESS;
+        try {
+            $products = explode("\n", $this->seedTableService->requestApi());
+            $this->seedTableService->addProducts($products);
+            $this->seedTableService->addFile();
+            $this->seedTableService->createLog('insert data in database');
+            return Command::SUCCESS;
+        } catch (\Throwable $th) {
+            $this->seedTableService->createLog($th->getMessage());
+        }
+       
     }
 }
