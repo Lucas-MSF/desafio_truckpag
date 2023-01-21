@@ -1,10 +1,11 @@
-<?php 
+<?php
 
 namespace App\Http\Repositories;
 
 use App\Models\ExportedFile;
 
-class SeedTableRepository {
+class SeedTableRepository
+{
 
     public function getAllFiles()
     {
@@ -15,6 +16,7 @@ class SeedTableRepository {
         foreach ($productsFiles as $productFile) {
             ExportedFile::create(['name' => $productFile]);
         };
-        return true; 
+        return true;
     }
+  
 }

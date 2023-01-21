@@ -36,7 +36,7 @@ class SeedTables extends Command
     public function handle()
     {
         $products = explode("\n", $this->seedTableService->requestApi());
-        // $this->seedTableService->addProducts($products);
+        $this->seedTableService->addProducts($products);
         $this->seedTableService->requestFile();
         return Command::SUCCESS;
     }

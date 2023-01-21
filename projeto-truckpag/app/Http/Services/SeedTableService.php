@@ -2,18 +2,22 @@
 
 namespace App\Http\Services;
 
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
+use App\Http\Repositories\ProductRepository;
 use App\Http\Repositories\SeedTableRepository;
 
 class SeedTableService
 {
 
     private $seedTableRepository;
+    private $productRepository;
 
     public function __construct()
     {
         $this->seedTableRepository = new SeedTableRepository;
+        $this->productRepository =  new ProductRepository;
     }
 
     public function requestApi()
@@ -37,7 +41,8 @@ class SeedTableService
 
         $productsDataBase = $this->seedTableRepository->getAllFiles();
         $productsDataBase->map(function ($product) use ($client) {
-            if ($product->run === 1) return;
+            if ($product->run === 0) return;
+
             $path = "/var/www/html/desafio_truckpag/projeto-truckpag/public/storage/";
             $client->request('GET', "https://challenges.coode.sh/food/data/json/$product->name", [
                 'sink' => $path . $product->name
@@ -61,9 +66,44 @@ class SeedTableService
             }
             fclose($fh);
 
+            
+            foreach ($content as $newProduct) {
+                $this->productRepository->add($this->mountData($newProduct));
+            }
+            $product->update(['run' => 0]);
             unlink(public_path('storage/' . $product->name));
             unlink(public_path('storage/arquivoExtraido.json'));
-           
+
+            
         });
+    }
+    private function mountData($product)
+    {
+        $data = [
+            "code" => str_replace('"', "", $product->code),
+            "status" => "published",
+            "imported_t" => Carbon::now()->subHours(3)->format('Y/m/d H:i:s'),
+            "url" => $product->url,
+            "creator" => $product->creator,
+            "created_t" => $product->created_t,
+            "last_modified_t" => $product->last_modified_t,
+            "product_name" => $product->product_name,
+            "quantity" => $product->quantity,
+            "brands" => $product->brands,
+            "categories" => $product->categories,
+            "labels" => $product->labels,
+            "cities" => $product->cities,
+            "purchase_places" => $product->purchase_places,
+            "stores" =>  $product->stores,
+            "ingredients_text" => $product->ingredients_text,
+            "traces" => $product->traces,
+            "serving_size" => $product->serving_size,
+            "serving_quantity" => $product->serving_quantity,
+            "nutriscore_score" => $product->nutriscore_score,
+            "nutriscore_grade" => $product->nutriscore_grade,
+            "main_category" => $product->main_category,
+            "image_url" => $product->image_url
+        ];
+        return $data;
     }
 }

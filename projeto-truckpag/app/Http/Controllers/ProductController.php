@@ -83,4 +83,28 @@ class ProductController extends Controller
             return ['messages' => $th->getMessage()];
         }
     }
+    //TODO: função de retorno do status do banco
+            // function getSystemMemInfo() 
+            // $data = explode("\n", file_get_contents("/proc/meminfo"));
+            // $meminfo = array();
+            // foreach ($data as $line) {
+            //     list($key, $val) = explode(":", $line);
+            //     $meminfo[$key] = trim($val);
+            // }
+            // return $meminfo;
+            
+            // function getUptime()
+            // {
+            //     $str   = @file_get_contents('/proc/uptime');
+            //     $num   = floatval($str);
+            //     $secs  = fmod($num, 60);
+            //     $num = (int)($num / 60);
+            //     $mins  = $num % 60;
+            //     $num = (int)($num / 60);
+            //     $hours = $num % 24;
+            //     $num = (int)($num / 24);
+            //     $days  = $num;
+
+            //     return ['days' => $days, 'hours' => $hours, 'mins' => $mins, 'secs' => $secs];
+            // }
 }
