@@ -14,6 +14,27 @@ class ProductController extends Controller
     {
         $this->productsRepository = new ProductRepository;
     }
+
+    public function returnStatus()
+    {
+        try {
+            $readAndWriteTest = $this->productsRepository->checkDbReadWrite();
+            $lastCronCheck = $this->productsRepository->lastCronCheck();
+            $checkMemoryStatusAndOnlineTime = $this->productsRepository->memoryAndTime();
+            return [
+                'success' => true,
+                'messages' => [
+                    'db_read_and_write' => $readAndWriteTest,
+                    'last_cron_check' => $lastCronCheck,
+                    'used_memory' => $checkMemoryStatusAndOnlineTime['memory'],
+                    'online_time' => $checkMemoryStatusAndOnlineTime['uptime'],
+                ]
+            ];
+        } catch (\Exception $e) {
+            
+        }
+    }
+
     public function getAllProducts()
     {
         try {
@@ -36,7 +57,6 @@ class ProductController extends Controller
                 'success' => true,
                 'product' => $product
             ];
-            
         } catch (\Throwable $th) {
             return ['messages' => $th->getMessage()];
         }
@@ -46,7 +66,7 @@ class ProductController extends Controller
         try {
             DB::beginTransaction();
             $product = $this->productsRepository->findProductByCode($code)->first();
-            $this->productsRepository->update($product, $request->all());   
+            $this->productsRepository->update($product, $request->all());
             DB::commit();
             return [
                 'success' => true,
@@ -61,7 +81,7 @@ class ProductController extends Controller
         try {
             DB::beginTransaction();
             $product = $this->productsRepository->findProductByCode($code)->first();
-            $this->productsRepository->delete($product);   
+            $this->productsRepository->delete($product);
             DB::commit();
             return [
                 'success' => true,
@@ -70,7 +90,6 @@ class ProductController extends Controller
         } catch (\Throwable $th) {
             return ['messages' => $th->getMessage()];
         }
-    
     }
     public function getProductByCode(int $code)
     {
@@ -83,28 +102,4 @@ class ProductController extends Controller
             return ['messages' => $th->getMessage()];
         }
     }
-    //TODO: função de retorno do status do banco
-            // function getSystemMemInfo() 
-            // $data = explode("\n", file_get_contents("/proc/meminfo"));
-            // $meminfo = array();
-            // foreach ($data as $line) {
-            //     list($key, $val) = explode(":", $line);
-            //     $meminfo[$key] = trim($val);
-            // }
-            // return $meminfo;
-            
-            // function getUptime()
-            // {
-            //     $str   = @file_get_contents('/proc/uptime');
-            //     $num   = floatval($str);
-            //     $secs  = fmod($num, 60);
-            //     $num = (int)($num / 60);
-            //     $mins  = $num % 60;
-            //     $num = (int)($num / 60);
-            //     $hours = $num % 24;
-            //     $num = (int)($num / 24);
-            //     $days  = $num;
-
-            //     return ['days' => $days, 'hours' => $hours, 'mins' => $mins, 'secs' => $secs];
-            // }
 }
