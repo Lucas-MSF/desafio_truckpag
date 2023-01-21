@@ -2,12 +2,9 @@
 
 namespace App\Http\Services;
 
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
 use App\Http\Repositories\SeedTableRepository;
-use App\Models\Product;
-use GuzzleHttp\Client;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use ZipArchive;
 
 class SeedTableService
 {
@@ -28,7 +25,6 @@ class SeedTableService
         $newProducts = [];
         foreach ($products as $product) {
             $productsDataBase = $this->seedTableRepository->getAllFiles()->pluck('name')->toArray();
-            dd($productsDataBase);
             if (in_array($product, $productsDataBase)) continue;
             $newProducts[] = $product;
         }
@@ -42,10 +38,32 @@ class SeedTableService
         $productsDataBase = $this->seedTableRepository->getAllFiles();
         $productsDataBase->map(function ($product) use ($client) {
             if ($product->run === 1) return;
-
+            $path = "/var/www/html/desafio_truckpag/projeto-truckpag/public/storage/";
             $client->request('GET', "https://challenges.coode.sh/food/data/json/$product->name", [
-                'sink' => "/var/www/html/desafio_truckpag/projeto-truckpag/public/storage/$product->name"
+                'sink' => $path . $product->name
             ]);
+
+            $gz = gzopen($path . $product->name, 'r');
+            $fp = fopen($path . "arquivoExtraido.json", 'w');
+            while ($string = gzread($gz, 4096)) {
+                fwrite($fp, $string, strlen($string));
+            }
+            fclose($fp);
+            gzclose($gz);
+
+            $fh = fopen($path . 'arquivoExtraido.json', 'rb');
+            $content = [];
+            for ($i = 0; $i < 2; $i++) {
+                $line = fgets($fh);
+                if ($line !== false) {
+                    $content[] = json_decode($line);
+                }
+            }
+            fclose($fh);
+
+            unlink(public_path('storage/' . $product->name));
+            unlink(public_path('storage/arquivoExtraido.json'));
+           
         });
     }
 }
