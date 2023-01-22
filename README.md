@@ -51,13 +51,7 @@ $ php artisan migrate
 * 
 # Instruções para executar os testes
 
-* Crie um arquivo chamado "testing.sqlite" dentro da diretório database.
 
-* Migre os testes para o banco de dados externo, nesse caso é o SQLite.
-
-```sh
-$ php artisan migrate --database sqlite_testing
-```
 * Para executar os testes é só rodar o comando.
 
 ```sh
