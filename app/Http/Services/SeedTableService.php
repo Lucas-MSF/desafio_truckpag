@@ -38,7 +38,7 @@ class SeedTableService
     }
     public function addFile()
     {
-        $path = "/var/www/html/desafio_truckpag/projeto-truckpag/public/storage/";
+        $path = "/var/www/html/desafio_truckpag/public/storage/";
 
         $productsDataBase = $this->seedTableRepository->getAllFiles();
         $productsDataBase->map(function ($product) use ($path) {
