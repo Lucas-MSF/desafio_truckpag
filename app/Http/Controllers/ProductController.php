@@ -15,6 +15,12 @@ class ProductController extends Controller
         $this->productsRepository = new ProductRepository();
     }
 
+    public function store(Request $request)
+    {
+        $product = $this->productsRepository->add($request->all());
+        return $product;
+    }
+
     public function returnStatus()
     {
         try {
