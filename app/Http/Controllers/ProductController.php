@@ -12,7 +12,7 @@ class ProductController extends Controller
 
     public function __construct()
     {
-        $this->productsRepository = new ProductRepository;
+        $this->productsRepository = new ProductRepository();
     }
 
     public function returnStatus()
@@ -47,20 +47,7 @@ class ProductController extends Controller
         }
     }
 
-    public function store(Request $request)
-    {
-        try {
-            DB::beginTransaction();
-            $product = $this->productsRepository->add($request->all());
-            DB::commit();
-            return [
-                'success' => true,
-                'product' => $product
-            ];
-        } catch (\Throwable $th) {
-            return ['messages' => $th->getMessage()];
-        }
-    }
+   
     public function update(int $code, Request $request)
     {
         try {

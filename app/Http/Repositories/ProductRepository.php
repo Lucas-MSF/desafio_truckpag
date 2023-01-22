@@ -38,17 +38,17 @@ class ProductRepository
         try {
 
             $results = DB::select("SELECT 1+1 as result");
-            if ($results[0]->result != 2) throw new \Exception("Falha ao ler o banco de dados");
+            if ($results[0]->result != 2) throw new \Exception("Failed to read the database");
 
-            $product = Product::create(['code' => 'produto_teste']);
+            $product = Product::create(['code' => 'product_test']);
             $results = DB::select("SELECT code FROM products WHERE code = ?", [$product->code]);
             if (empty($results)) {
-                throw new \Exception("Falha ao escrever no banco de dados");
+                throw new \Exception("Failed to write to database");
             }
             $product->delete();
-            return "Leitura e escrita no banco de dados funcionando corretamente!";
+            return "Reading and writing to the database working correctly";
         } catch (\Exception $e) {
-            return "Falha na conexão com o banco de dados: " . $e->getMessage();
+            return "Database connection failed: " . $e->getMessage();
         }
     }
     public function lastCronCheck()
