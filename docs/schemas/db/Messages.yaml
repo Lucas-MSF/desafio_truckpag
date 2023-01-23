@@ -1,0 +1,18 @@
+required:
+  - db_read_and_write
+  - last_cron_check
+  - used_memory
+  - online_time
+properties:
+  db_read_and_write:
+    type: string
+    example: "Reading and writing to the database working correctly"
+  last_cron_check:
+    type: string
+    example: "2023-01-22 15:10:07"
+  used_memory:
+    type: string
+    example: "0.93 MB"
+  online_time:
+    type: string
+    example: "350.08 min"

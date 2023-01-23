@@ -1,0 +1,36 @@
+type: object
+required:
+  - success
+  - data
+properties:
+  success:
+    type: string
+    format: boolean
+    example: true
+  data:
+    type: object
+    example:
+      id: 1
+      code: "0000000000017"
+      status: trash
+      imported_t: 2023/01/22 14:14:30
+      url: http://world-en.openfoodfacts.org/product/0000000000017/vitoria-crackers
+      creator: kiliweb
+      created_t: 1529059080
+      last_modified_t: 1561463718
+      product_name: Vitória crackers
+      quantity: ""
+      brands: ""
+      categories: ""
+      labels: ""
+      cities: ""
+      purchase_places: ""
+      stores: ""
+      ingredients_text: ""
+      traces: ""
+      serving_size: ""
+      serving_quantity: 0
+      nutriscore_score: 0
+      nutriscore_grade: ""
+      main_category: ""
+      image_url: https://static.openfoodfacts.org/images/products/000/000/000/0017/front_fr.4.400.jpg

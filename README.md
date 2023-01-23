@@ -51,11 +51,19 @@ $ php artisan migrate
 * 
 # Instruções para executar os testes
 
+* Crie um arquivo chamado "databse.sqlite" dentro da diretório database.
+
+* Faça uma copia da .env com o nome de .env.testing e sincronize com o database sqlite.
+  
+```sh
+DB_CONNECTION=sqlite
+DB_DATABASE=database/databse.sqlite
+```
 
 * Para executar os testes é só rodar o comando.
 
 ```sh
-$ php artisan test
+$ php artisan test --env=env.testing
 ```
 
 # Endpoints

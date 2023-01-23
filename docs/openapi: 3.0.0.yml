@@ -1,0 +1,210 @@
+openapi: 3.0.0
+info:
+  description: Api criada para realizar o tech test da empresa Truckpag
+  version: "1.0.0"
+  title: API-Truckpag
+
+paths:
+  /:
+    get:
+      tags:
+        - DB Status
+      summary: Mostra o status do DB
+      operationId: status_db
+      description: Detalhes da API, se conexão leitura e escritura com a base de dados está OK, horário da última vez que o CRON foi executado, tempo online e uso de memória.
+      responses:
+        200:
+          description: Status da API
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "./schemas/db/Status.yaml"
+
+  /products/:
+    get:
+      tags:
+        - Products
+      summary: Retorna todos os produtos cadastrados no banco de dados
+      operationId: products_get_all
+      description: Listar todos os produtos da base de dados, adicionar sistema de paginação para não sobrecarregar o REQUEST.
+      responses:
+        200:
+          description: Lista de produtos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "./schemas/products/AllProducts.yaml"
+
+  /products/{code}:
+    get:
+      tags:
+        - Products
+      summary: Retorna o produto com o codigo inserido
+      operationId: products_get_one
+      description: Responsavel por buscar um produto unico no banco
+      parameters:
+        - in: path
+          name: code
+          schema:
+            type: string
+          required: true
+          description: Código do produto
+      responses:
+        200:
+          description: Lista de produtos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AllProducts"
+    put:
+      tags:
+        - Products
+      summary: Retorna todos os produtos cadastrados no banco de dados
+      operationId: products_put
+      description: Será responsável por receber atualizações do Projeto Web
+      parameters:
+        - name: code
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Código do produto
+        - name: url
+          in: query
+          schema:
+            type: string
+          description: Url do produto
+        - name: creator
+          in: query
+          schema:
+            type: string
+          description: Criador do produto
+        - name: created_t
+          in: query
+          schema:
+            type: integer
+        - name: last_modified_t
+          in: query
+          schema:
+            type: integer
+        - name: product_name
+          in: query
+          schema:
+            type: string
+        - name: quantity
+          in: query
+          schema:
+            type: string
+        - name: brands
+          in: query
+          schema:
+            type: string
+        - name: categories
+          in: query
+          schema:
+            type: string
+        - name: labels
+          in: query
+          schema:
+            type: string
+        - name: cities
+          in: query
+          schema:
+            type: string
+        - name: purchase_places
+          in: query
+          schema:
+            type: string
+        - name: stores
+          in: query
+          schema:
+            type: string
+        - name: ingredients_text
+          in: query
+          schema:
+            type: string
+        - name: traces
+          in: query
+          schema:
+            type: string
+        - name: serving_size
+          in: query
+          schema:
+            type: string
+        - name: serving_quantity
+          in: query
+          schema:
+            type: integer
+        - name: nutriscore_score
+          in: query
+          schema:
+            type: integer
+        - name: nutriscore_grade
+          in: query
+          schema:
+            type: string
+        - name: main_category
+          in: query
+          schema:
+            type: string
+        - name: image_url
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: Atualização do produto
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UpdateProducts"
+    delete:
+      tags:
+        - Products
+      summary: Altera o status do produto para trash
+      operationId: products_delete
+      description: Responsavel por mudar o status do item para trash
+      parameters:
+        - in: path
+          name: code
+          schema:
+            type: string
+          required: true
+          description: Código do produto
+      responses:
+        200:
+          description: Produto deletado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DeleteProducts"
+components:
+
+  schemas:
+
+    StatusDB:
+      $ref: "./schemas/db/Status.yaml"
+
+    StatusDBMessages:
+      $ref: "./schemas/db/Messages.yaml"
+
+    AllProducts:
+      $ref: "./schemas/products/AllProducts.yaml"
+
+    UpdateProducts:
+      $ref: "./schemas/products/UpdateProducts.yaml"
+
+    DeleteProducts:
+      $ref: "./schemas/products/DeleteProducts.yaml"
+
+      

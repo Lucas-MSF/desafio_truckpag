@@ -1,0 +1,36 @@
+type: object
+required:
+  - success
+  - data
+properties:
+  success:
+    type: string
+    format: boolean
+    example: true
+  data:
+    type: object
+    example:
+      id: 1
+      code: "0000000000017"
+      status: published
+      imported_t: 2023/01/22 14:14:30
+      url: updated value
+      creator: updated value
+      created_t: updated value
+      last_modified_t: updated value
+      product_name: updated value
+      quantity: "updated value"
+      brands: "updated value"
+      categories: "updated value"
+      labels: "updated value"
+      cities: "updated value"
+      purchase_places: "updated value"
+      stores: "updated value"
+      ingredients_text: "updated value"
+      traces: "updated value"
+      serving_size: "updated value"
+      serving_quantity: updated value
+      nutriscore_score: updated value
+      nutriscore_grade: "updated value"
+      main_category: "updated value"
+      image_url: updated value
