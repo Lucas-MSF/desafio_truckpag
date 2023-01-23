@@ -20,27 +20,7 @@ class ProductController extends Controller
         $product = $this->productsRepository->add($request->all());
         return $product;
     }
-
-    public function returnStatus()
-    {
-        try {
-            $readAndWriteTest = $this->productsRepository->checkDbReadWrite();
-            $lastCronCheck = $this->productsRepository->lastCronCheck();
-            $checkMemoryStatusAndOnlineTime = $this->productsRepository->memoryAndTime();
-            return [
-                'success' => true,
-                'messages' => [
-                    'db_read_and_write' => $readAndWriteTest,
-                    'last_cron_check' => $lastCronCheck,
-                    'used_memory' => $checkMemoryStatusAndOnlineTime['memory'],
-                    'online_time' => $checkMemoryStatusAndOnlineTime['uptime'],
-                ]
-            ];
-        } catch (\Exception $e) {
-            
-        }
-    }
-
+    
     public function getAllProducts()
     {
         try {
