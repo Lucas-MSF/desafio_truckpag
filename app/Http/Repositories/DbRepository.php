@@ -7,10 +7,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
 class DbRepository {
-    public function updateRunToFalse($product)
-    {
-        return $product->update(['run' => 0]);
-    }
+ 
     public function checkDbReadWrite()
     {
         try {

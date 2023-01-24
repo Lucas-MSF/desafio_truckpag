@@ -29,4 +29,8 @@ class ProductRepository
     {
         return $product->update(['status' => 'trash']);
     }
+    public function updateRunToFalse($product)
+    {
+        return $product->update(['run' => 0]);
+    }
 }
